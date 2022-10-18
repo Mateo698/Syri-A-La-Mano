@@ -1,14 +1,23 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import styles from '../styles/Home.module.css'
+import { useSession, signIn, signOut } from "next-auth/react"
+import { useRouter } from 'next/router'
 
 
-function Component({realData}) {
+function Component() {
+  const { data: session,status } = useSession()
+  const router = useRouter();
   const nameRef = useRef();
   const passRef = useRef();
   var typeUser = "";
-  console.log(realData)
+  console.log(session)
+  
+
+  useEffect(() => {
+    if (status === "unauthenticated") router.push('/signIn');
+  }, [status]);
 
   function onChange(e){    
     typeUser = e.target.value;
@@ -26,52 +35,28 @@ function Component({realData}) {
         username : nameRef.current.value,
         password : passRef.current.value
       }
-      const response = await fetch('http://localhost:3000/api/login', {    
-          method: 'PUT',
-          body: JSON.stringify({ data }),
-          headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json'
-          }
-      })
+      
     }
    
   }
+  
 
-  if(!realData.session){
+  if(session){
+    
     return(
-      <div className={styles.main}>
-        <h1 className={styles.title}>Syri A La Mano</h1>
-        
-          <label>Usuario:</label>
-          <input type="text" ref={nameRef}></input>
-          <label>Contraseña:</label>
-          <input type="password" ref={passRef}></input>
-          <div className={styles.radio}>
-            <input type="radio" id="admin" name="type" value="Admin" onClick={onChange}></input>
-            <label >Administrador</label>
-            <input type="radio" id="monit" name ="type" value="Monitor" onClick={onChange}></input>
-            <label >Monitor</label>
-          </div>
-          
-          <button type="button" onClick={handleClick}>Sign in</button>
+      <div>
+        Gud
+        <button onClick={() => signOut({callbackUrl:'/'})}>LogOut</button>
       </div>
-      )
+    )
   }else{
     return(
-      <div>Session: {realData.username}</div>
+      <div>
+        <button onClick={() => {window.location.href= '/signIn'}}>Go</button>
+      </div>
     )
   }
   
 }
-
-Component.getInitialProps = async (ctx) => {
-  const testData = await fetch("http://localhost:3000/api/login");
-  const r = await testData.json();
-  console.log("AQUI")
-  console.log(r.data.session)
-  const realData = r.data
-  return {realData};
-};
 
 export default Component;
