@@ -1,36 +1,50 @@
 import { Container } from "@mui/material"
 import { signIn } from "next-auth/react"
+import { useRef } from "react";
 
 
 export default function SignIn() {
+  const nameRef = useRef();
+  const passRef = useRef();
+  var typeUser = "";
 
-  async function handleSubmit(e){
-    e.preventDefault();
-    const res = await signIn("credentials",{
-      email : "test",
-      password : "123",
-      redirect : true,
-      callbackUrl :'/'
-    });
-    console.log(res)
+
+  function onChange(e) {
+    typeUser = e.target.value;
+    console.log(typeUser)
   }
 
+  async function handleSubmit(e) {
+    e.preventDefault();
+    if (nameRef.current.value == "" || passRef.current.value == "" || typeUser == "") {
+      alert("Por favor llene todo los campos");
+    } else {
+      const res = await signIn("credentials", {
+        email: nameRef.current.value,
+        password: passRef.current.value,
+        redirect: true,
+        callbackUrl: '/'
+      });
+      console.log(res)
+    }
+
+  }
 
   return (
-    <div >
+    <Container>
       <div >
-        <h1 className="signin-h1">Iniciar Sesion</h1>
-        <span>¿No tienes una cuenta? <a className="sign-a" href="/register">Registrarse</a> </span>
+        <div >
+          <h1 className="signin-h1">Iniciar Sesion</h1>
+          <input ref={nameRef} className="sign-in-input" name="email" type="email" placeholder="Email" />
+          <input ref={passRef} className="sign-in-input" name="password" type="password" placeholder="Password" /><hr></hr>
+          <input onClick={onChange} value="admin" name="type" type="radio"></input><label for="">Administrador</label>
+          <input onClick={onChange} value="monitor" name="type" type="radio"></input><label for="">Monitor</label>
+          <hr />
+          <button className="sign-in-button" onClick={handleSubmit}>Sign in</button>
+        </div>
+      </div >
+    </Container>
 
-        <input className="sign-in-input" name="email" type="email" placeholder="Email" />
-
-
-        <input className="sign-in-input" name="password" type="password" placeholder="Password" />
-
-        <hr />
-        <button className="sign-in-button" onClick={handleSubmit}>Sign in</button>
-    </div>
-       </div > 
   )
 }
 

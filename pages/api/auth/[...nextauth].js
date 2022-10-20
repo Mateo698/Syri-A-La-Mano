@@ -12,7 +12,9 @@ const authOptions = {
       credentials: {},
       authorize(credentials, req) {
         const{email,password} = credentials
+        //db query here
         return {
+          name: "test",
           id: "1234",
           name: "John Doe",
           email: "john@gmail.com",

@@ -9,9 +9,6 @@ import { useRouter } from 'next/router'
 function Component() {
   const { data: session,status } = useSession()
   const router = useRouter();
-  const nameRef = useRef();
-  const passRef = useRef();
-  var typeUser = "";
   console.log(session)
   
 
@@ -19,26 +16,7 @@ function Component() {
     if (status === "unauthenticated") router.push('/signIn');
   }, [status]);
 
-  function onChange(e){    
-    typeUser = e.target.value;
-  }
-
-  async function handleClick(e){
-    e.preventDefault();
-    
-    console.log(type);
-    if(nameRef.current.value == "" || passRef.current.value == "" || typeUser == ""){
-      alert("Por favor llene todo los campos");
-    }else{
-      let data = {
-        type : typeUser,
-        username : nameRef.current.value,
-        password : passRef.current.value
-      }
-      
-    }
-   
-  }
+ 
   
 
   if(session){
