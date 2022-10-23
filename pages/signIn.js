@@ -20,8 +20,8 @@ export default function SignIn() {
       alert("Por favor llene todo los campos");
     } else {
       const res = await signIn("credentials", {
-        email: nameRef.current.value,
-        password: passRef.current.value,
+        email: "Asd",
+        password: "Asd",
         redirect: true,
         callbackUrl: '/'
       });

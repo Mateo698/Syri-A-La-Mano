@@ -14,6 +14,9 @@ import FormGroup from '@mui/material/FormGroup';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import { useSession } from "next-auth/react"
+import Stack from '@mui/material/Stack';
+
+
 
 const theme = createTheme({
     status: {
@@ -34,8 +37,7 @@ const theme = createTheme({
 export default function MenuAppBar() {
     const [auth, setAuth] = React.useState(true);
     const [anchorEl, setAnchorEl] = React.useState(null);
-    const session = useSession();
-    console.log(session)
+    const { data: session } = useSession();
 
     const handleChange = (event) => {
         setAuth(event.target.checked);
@@ -52,23 +54,22 @@ export default function MenuAppBar() {
     return (
         <Box sx={{ flexGrow: 1 }}>
 
-            <AppBar position="static">
+            <AppBar position="fixed" sx={{ top: 'auto', bottom: 0 }}>
                 <Toolbar>
-                <div style={{ flexGrow: 1 ,display:'flex',justifyContent:'center', alignItems:'center' }}> 
                     <ThemeProvider theme={theme}>
-                        <Button color="neutral" variant="contained">
-                            neutral
-                        </Button>
-                        <Button color="neutral" variant="contained">
-                            neutral
-                        </Button>
-                        <Button color="neutral" variant="contained">
-                            neutral
-                        </Button>
+                        <Stack direction="row" flexGrow={2} >
+                            <Box flexGrow={1} sx={{ display: 'flex', justifyContent: 'center' }}>
+                                <Button color="neutral" variant="contained" sx={{width:'90%'}}>
+                                    Aperturas
+                                </Button></Box>
+
+                            <Box flexGrow={1} sx={{ display: 'flex', justifyContent: 'center' }}>
+                                <Button color="neutral" variant="contained" sx={{width:'90%'}}>
+                                    Solicitudes
+                                </Button></Box>
+
+                        </Stack>
                     </ThemeProvider>
-                    </div>
-
-
 
                     {auth && (
                         <div>

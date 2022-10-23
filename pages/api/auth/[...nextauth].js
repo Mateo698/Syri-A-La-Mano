@@ -13,46 +13,22 @@ const authOptions = {
       authorize(credentials, req) {
         const{email,password} = credentials
         //db query here
-        return {
-          name: "test",
-          id: "1234",
-          name: "John Doe",
-          email: "john@gmail.com",
-          role: "admin",
-        };
+        var user = {type: "FUCK"}
+        return user;
       }
     }),
   ],
   pages: {
     signIn: "/signIn",
-    // error: '/auth/error',
-    // signOut: '/auth/signout'
+  },
+  callbacks:{
+    session: async ({session}) => {
+      session.username = "ITWORKS"
+      session.type = "monit"
+      return session
+    }
   }
+
 };
 
 export default nextAuth(authOptions);
-
-
-// export default nextAuth({
-//   session: {
-//     strategy: 'jwt'
-//   },
-//   providers: [
-//     CredentialsProvider({
-//       type: "credentials",
-//       credentials: { },
-//       authorize(credentials, req) {
-//         return{
-//           username: "Mateo698",
-//           email: "mateora",
-//           name: "Mateo",
-//           last_name: "Rada",
-//           user_type: "Admin"
-//         }
-//       }
-//     })
-//   ],
-//   pages:{
-//     signIn : '/signIn'
-//   }
-// });

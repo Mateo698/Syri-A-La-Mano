@@ -9,7 +9,6 @@ import { useRouter } from 'next/router'
 function Component() {
   const { data: session,status } = useSession()
   const router = useRouter();
-  console.log(session)
   
 
   useEffect(() => {
@@ -19,7 +18,7 @@ function Component() {
  
   
 
-  if(session){
+  if(session.type == "monit"){
     
     return(
       <div>
@@ -27,6 +26,10 @@ function Component() {
         <button onClick={() => signOut({callbackUrl:'/'})}>LogOut</button>
       </div>
     )
+  }else if(session.type == "admin"){
+    <div>
+      Admin view
+    </div>
   }else{
     return(
       <div>
