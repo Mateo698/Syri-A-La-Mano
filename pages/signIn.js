@@ -20,8 +20,9 @@ export default function SignIn() {
       alert("Por favor llene todo los campos");
     } else {
       const res = await signIn("credentials", {
-        email: "Asd",
-        password: "Asd",
+        email: nameRef.current.value,
+        password: passRef.current.value,
+        type: typeUser,
         redirect: true,
         callbackUrl: '/'
       });
@@ -38,7 +39,7 @@ export default function SignIn() {
           <input ref={nameRef} className="sign-in-input" name="email" type="email" placeholder="Email" />
           <input ref={passRef} className="sign-in-input" name="password" type="password" placeholder="Password" /><hr></hr>
           <input onClick={onChange} value="admin" name="type" type="radio"></input><label for="">Administrador</label>
-          <input onClick={onChange} value="monitor" name="type" type="radio"></input><label for="">Monitor</label>
+          <input onClick={onChange} value="monit" name="type" type="radio"></input><label for="">Monitor</label>
           <hr />
           <button className="sign-in-button" onClick={handleSubmit}>Sign in</button>
         </div>

@@ -9,7 +9,7 @@ import { useRouter } from 'next/router'
 function Component() {
   const { data: session,status } = useSession()
   const router = useRouter();
-  
+  console.log(session)
 
   useEffect(() => {
     if (status === "unauthenticated") router.push('/signIn');
