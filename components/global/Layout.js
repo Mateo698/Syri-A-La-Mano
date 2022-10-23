@@ -1,27 +1,35 @@
 import Navbar from './Navbar'
+import Sidebar from './Sidebar'
 import { useSession, signIn, signOut } from "next-auth/react"
 
 const Layout = ({ children }) => {
     const { data: session } = useSession()
-    if (session.type == "monit") {
-        return (
-            <div className="layout-container">
-                <div className="sidebar-main-containter">
-                    <Navbar />
+    if (session) {
+        if (session.type == "monit") {
+            return (
+                <div className="layout-container">
+                    <div className="sidebar-main-containter">
+                        <Navbar />
+                    </div>
+                    <div className="children-container">
+                        {children}
+                    </div>
                 </div>
-                <div className="children-container">
-                    {children}
+            )
+        }
+        else if (session.type == "admin") {
+            return (
+                <div>
+                    <div>
+                        <Sidebar/>
+                    </div>
+                    <div>
+                        {children}
+                    </div>
                 </div>
-            </div>
-        )
-    }
-    else if(session.type == "admin"){
-        return(
-            <div>
-                Admin view
-            </div>
 
-        )
+            )
+        }
     }
 
     //NO SESSION RETURN:

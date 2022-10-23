@@ -16,27 +16,35 @@ function Component() {
   }, [status]);
 
  
-  
-
-  if(session.type == "monit"){
+  if(session){
+    if(session.type == "monit"){
     
-    return(
+      return(
+        <div>
+          Gud
+          <button onClick={() => signOut({callbackUrl:'/'})}>LogOut</button>
+        </div>
+      )
+    }else if(session.type == "admin"){
       <div>
-        Gud
-        <button onClick={() => signOut({callbackUrl:'/'})}>LogOut</button>
+        Admin vieww
       </div>
-    )
-  }else if(session.type == "admin"){
-    <div>
-      Admin view
-    </div>
+    }else{
+      return(
+        <div>
+          <button onClick={() => {window.location.href= '/signIn'}}>Go</button>
+        </div>
+      )
+    }
   }else{
     return(
       <div>
-        <button onClick={() => {window.location.href= '/signIn'}}>Go</button>
+        Cargando...
       </div>
     )
   }
+
+  
   
 }
 

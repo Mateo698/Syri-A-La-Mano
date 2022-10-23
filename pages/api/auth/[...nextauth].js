@@ -24,7 +24,7 @@ const authOptions = {
   callbacks:{
     session: async ({session}) => {
       session.username = "ITWORKS"
-      session.type = "monit"
+      session.type = "admin"
       return session
     }
   }
