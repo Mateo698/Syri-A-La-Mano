@@ -22,10 +22,13 @@ function Component(props) {
     if (session.type == "monit") {
 
       return (
-        <div>
-          <SyriCard salon="201" apertura="A" cierre="B"/>
-          Gud
-          <button onClick={() => signOut({ callbackUrl: '/' })}>LogOut</button>
+        <div style={{display:'flex',alignItems:'center',justifyContent: 'center',flexDirection:'column'}}>
+          <SyriCard salon="201E" apertura="A" cierre="B"/>
+          <SyriCard salon="201L" apertura="A" cierre="B"/>
+          <SyriCard salon="201H" apertura="A" cierre="B"/>
+          <SyriCard salon="201F" apertura="A" cierre="B"/>
+          <SyriCard salon="201G" apertura="A" cierre="B"/>
+          <div style={{height:'50px'}}>hide</div>
         </div>
       )
     } else if (session.type == "admin") {

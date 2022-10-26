@@ -21,28 +21,37 @@ const bull = (
 
 export default function SyriCard(props) {
   return (
-    <Card sx={{ minWidth: 275 }}>
+    <Card sx={{ width: 340,border:'5px',borderColor:'#4659F3',borderStyle:'solid'}}>
       <CardContent>
-        <Typography variant="h5" component="div">
+        <Typography variant="h4" component="div">
           {props.salon}
         </Typography>
-        <Typography variant="body2">
+        <Typography variant="h5">
           {props.apertura}
         </Typography>
-        <Typography variant="body2">
+        <Typography variant="h5">
           {props.cierre}
         </Typography>
       </CardContent>
-      <CardActions>
-        <IconButton>
-            <DoneIcon/>
-        </IconButton>
-        <IconButton>
-            <FlagIcon/>
-        </IconButton>
-        <IconButton>
-            <SupportIcon/>
-        </IconButton>
+      <CardActions sx={{display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <Box flexGrow={1}>
+          <IconButton>
+            <DoneIcon sx={{ width: 45, height: 45 }} />
+          </IconButton>
+        </Box>
+        <Box flexGrow={1}>
+          <IconButton>
+            <FlagIcon sx={{ width: 45, height: 45 }} />
+          </IconButton>
+        </Box>
+        <Box flexGrow={1}>
+          <IconButton>
+            <SupportIcon sx={{ width: 45, height: 45 }} />
+          </IconButton>
+        </Box>
+
+
+
       </CardActions>
     </Card>
   );
