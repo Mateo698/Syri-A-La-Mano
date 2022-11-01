@@ -8,7 +8,7 @@ const Layout = ({ children }) => {
         if (session.type == "monit") {
             return (
                 <div className="layout-container">
-                    <div className="sidebar-main-containter">
+                    <div className="sidebar-main-containter" >
                         <Navbar />
                     </div>
                     <div className="children-container">

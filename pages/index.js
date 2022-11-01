@@ -5,6 +5,7 @@ import styles from '../styles/Home.module.css'
 import { useSession, signIn, signOut, getSession } from "next-auth/react"
 import { useRouter } from 'next/router'
 import SyriCard from '../components/global/SyriCard'
+import { Typography } from '@mui/material'
 
 
 function Component(props) {
@@ -20,17 +21,29 @@ function Component(props) {
 
   if (session) {
     if (session.type == "monit") {
+      if (props.data.turnoId != "") {
+        return (
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', border: '5px solid red', flexGrow: '1' }}>
+            <Typography variant="h4">
+              Turno actual:
+            </Typography>
+            <Typography variant='h3' sx={{ color: '#1760A5' }}>{props.data.edificios}</Typography>
+            <Typography variant='h4' >
+              Aperturas/Cierres restantes:
+            </Typography>
+            <Typography variant='h3' sx={{ color: '#1760A5' }}>
+              X
+            </Typography>
+          </div>
+        )
+      } else {
+        return (
+          <div>
 
-      return (
-        <div style={{display:'flex',alignItems:'center',justifyContent: 'center',flexDirection:'column'}}>
-          <SyriCard salon="201E" apertura="A" cierre="B"/>
-          <SyriCard salon="201L" apertura="A" cierre="B"/>
-          <SyriCard salon="201H" apertura="A" cierre="B"/>
-          <SyriCard salon="201F" apertura="A" cierre="B"/>
-          <SyriCard salon="201G" apertura="A" cierre="B"/>
-          <div style={{height:'50px'}}>hide</div>
-        </div>
-      )
+          </div>
+        )
+      }
+
     } else if (session.type == "admin") {
       <div>
         Admin vieww
@@ -53,7 +66,7 @@ function Component(props) {
 
 export async function getServerSideProps(context) {
   const session = await getSession(context);
-  if(session){
+  if (session) {
     let userData = { name: session.name, type: session.type };
     let config = {
       method: 'POST',
@@ -65,12 +78,12 @@ export async function getServerSideProps(context) {
     return {
       props: { data }
     }
-  }else{
-    return{
-      props: {none : ""}
+  } else {
+    return {
+      props: { none: "" }
     }
   }
-  
+
 }
 
 
