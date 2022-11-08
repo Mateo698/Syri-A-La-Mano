@@ -13,8 +13,9 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import { useSession } from "next-auth/react"
+import { useSession, signOut} from "next-auth/react"
 import Stack from '@mui/material/Stack';
+import { useRouter } from 'next/router';
 
 
 
@@ -38,6 +39,18 @@ export default function MenuAppBar() {
     const [auth, setAuth] = React.useState(true);
     const [anchorEl, setAnchorEl] = React.useState(null);
     const { data: session } = useSession();
+    const router = useRouter()
+    function navigateTo(to){
+        router.push(to)
+    }
+
+    const handleHome = (event) => {
+
+    }
+
+    const handleLogOut = (event) => {
+        
+    }
 
     const handleChange = (event) => {
         setAuth(event.target.checked);
@@ -59,11 +72,11 @@ export default function MenuAppBar() {
                     <ThemeProvider theme={theme}>
                         <Stack direction="row" flexGrow={2} >
                             <Box flexGrow={1} sx={{ display: 'flex', justifyContent: 'center' }}>
-                                <Button color="neutral" variant="contained" sx={{width:'90%'}}>
+                                <Button color="neutral" variant="contained" sx={{width:'90%'}} onClick={() => navigateTo('/aperturas')}>
                                     Aperturas
                                 </Button></Box>
 
-                            <Box flexGrow={1} sx={{ display: 'flex', justifyContent: 'center' }}>
+                            <Box flexGrow={1} sx={{ display: 'flex', justifyContent: 'center' }} onClick={() => navigateTo('/solicitudes')}>
                                 <Button color="neutral" variant="contained" sx={{width:'90%'}}>
                                     Solicitudes
                                 </Button></Box>
@@ -98,8 +111,8 @@ export default function MenuAppBar() {
                                 open={Boolean(anchorEl)}
                                 onClose={handleClose}
                             >
-                                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                                <MenuItem onClick={handleClose}>My account</MenuItem>
+                                <MenuItem onClick={() => navigateTo('/')}>Profile</MenuItem>
+                                <MenuItem onClick={() => signOut({callbackUrl:'/'})}>Salir</MenuItem>
                             </Menu>
                         </div>
                     )}

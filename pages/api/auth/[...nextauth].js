@@ -10,16 +10,20 @@ const authOptions = {
     CredentialsProvider({
       type: "credentials",
       credentials: {},
-      authorize(credentials, req) {
+      async authorize(credentials, req) {
         const { email, password, type } = credentials
         //db query here
+        let data = await db.query('SELECT * FROM USERS WHERE EMAIL = $1 AND TYPE = $2',[email,type]);
         var user = {
-          email: email,
-          name: "test",
-          other: "testing",
-          type: type
+          email: data.rows[0].email,
+          name: data.rows[0].username,
+          type: data.rows[0].type
         }
-        return user;
+        if(password == data.rows[0].password){
+          return user;
+        }else{
+          return null;
+        }
       }
     }),
   ],
@@ -31,7 +35,6 @@ const authOptions = {
       if (user) {
         token.name = user.name,
           token.email = user.email,
-          token.other = user.other,
           token.type = user.type
       }
       return token
@@ -40,8 +43,7 @@ const authOptions = {
       if (token) {
         session.name = token.name
         session.email = token.email,
-          session.other = token.other,
-          session.type = token.type
+        session.type = token.type
 
       }
       return session

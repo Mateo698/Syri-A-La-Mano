@@ -11,8 +11,7 @@ import { Typography } from '@mui/material'
 function Component(props) {
   const { data: session, status } = useSession()
   const router = useRouter();
-  console.log(props)
-
+  console.log(session)
 
   useEffect(() => {
     if (status === "unauthenticated") router.push('/signIn');
