@@ -24,7 +24,10 @@ export default function handler() {
                     <Typography variant='subtitle1'>Crear nuevo</Typography>
                     <ControlPointIcon></ControlPointIcon>
                 </Button>
-                Listado aqui
+                
+            </Box>
+            <Box>
+            Listado aqui
             </Box>
 
 

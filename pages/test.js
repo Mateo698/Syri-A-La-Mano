@@ -1,9 +1,9 @@
-import Navbar from "../components/global/Navbar"
+import OpeningForm from "../components/global/OpeningForm"
 
 export default function test(){
     return(
         <div>
-            <Navbar></Navbar>
+          <OpeningForm/>  
         </div>
     )
 }
