@@ -43,7 +43,7 @@ export default function PermanentDrawerLeft() {
         {
             text: 'Turnos',
             icon: <TodayIcon />,
-            path: '/turnos'
+            path: '/shifts'
         },
         {
             text: 'Aperturas',
