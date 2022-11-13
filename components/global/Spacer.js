@@ -5,7 +5,8 @@ export default function spacer(){
                 sx={{
                     width: 10,
                     height: 30,
-                    backgroundColor: 'white'
+                    backgroundColor: 'white',
+                    opacity:0
                 }}
             />
     )

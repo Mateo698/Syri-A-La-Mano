@@ -12,18 +12,44 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { useRef } from 'react';
 
 
 export default function handler() {
+    let state = {
+        salon: "",
+        inicio: "",
+        fin: ""
+    }
+    const salonRef = useRef()
+    const initRef = useRef()
+    const endRef = useRef()
     const [open, setOpen] = React.useState(false);
+    const [list, setList] = React.useState([]);
+
 
     const handleClickOpen = () => {
+        console.log(list)
         setOpen(true);
     };
 
     const handleClose = () => {
         setOpen(false);
     };
+
+    const handleSave = () => {
+        if(salonRef.current.value == "" || initRef.current.value == "" || endRef.current.value == ""){
+            alert("Por favor ingrese todos los campos")
+        }
+        let newOpening = {
+            salon: salonRef.current.value,
+            horaInicio: initRef.current.value,
+            horaFin: endRef.current.value
+        }
+        setList([...list,newOpening])
+        
+        setOpen(false)
+    }
 
     return (
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', flexGrow: '1' }}>
@@ -54,7 +80,7 @@ export default function handler() {
                     borderColor: '#C8C8C8',
 
                 }}>
-                    <Typography variant='body1'>Aun no se agregado apertuas a este turno</Typography>
+                    <Typography variant='body1'>{list.length == 0 ? "Aun no se han agregado aperturas" : ""}</Typography>
 
                 </Box>
                 <Spacer />
@@ -65,23 +91,43 @@ export default function handler() {
                 <Dialog open={open} onClose={handleClose}>
                     <DialogTitle>Nueva apertura</DialogTitle>
                     <DialogContent>
-                        <DialogContentText>
-                            To subscribe to this website, please enter your email address here. We
-                            will send updates occasionally.
-                        </DialogContentText>
+
                         <TextField
                             autoFocus
                             margin="dense"
                             id="name"
-                            label="Email Address"
+                            label="Salon"
                             type="email"
                             fullWidth
                             variant="standard"
+                            inputRef={salonRef}
                         />
+                        <Spacer />
+                        <TextField
+                            margin="dense"
+                            id="name"
+                            label="Hora de apertura"
+                            type="time"
+                            defaultValue="00:00"
+                            fullWidth
+                            variant="standard"
+                            inputRef={initRef}
+                        />
+                        <TextField
+                            margin="dense"
+                            id="name"
+                            label="Hora de cierre"
+                            type="time"
+                            defaultValue="00:00"
+                            fullWidth
+                            variant="standard"
+                            inputRef={endRef}
+                        />
+
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={handleClose}>Cancel</Button>
-                        <Button onClick={handleClose}>Subscribe</Button>
+                        <Button onClick={handleClose}>Cancelar</Button>
+                        <Button onClick={handleSave}>Guardar</Button>
                     </DialogActions>
                 </Dialog>
             </div>
