@@ -13,20 +13,22 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useRef } from 'react';
-
+import OpeninCard from '../components/global/OpeningCard'
+let count = 0;
 
 export default function handler() {
-    let state = {
-        salon: "",
-        inicio: "",
-        fin: ""
-    }
+
     const salonRef = useRef()
     const initRef = useRef()
     const endRef = useRef()
     const [open, setOpen] = React.useState(false);
     const [list, setList] = React.useState([]);
 
+    const handleDelete = (id) => {
+        const newList = list.filter((todo) => todo.id != id)
+
+        setList(newList)
+    }
 
     const handleClickOpen = () => {
         console.log(list)
@@ -38,16 +40,17 @@ export default function handler() {
     };
 
     const handleSave = () => {
-        if(salonRef.current.value == "" || initRef.current.value == "" || endRef.current.value == ""){
+        if (salonRef.current.value == "" || initRef.current.value == "" || endRef.current.value == "") {
             alert("Por favor ingrese todos los campos")
         }
         let newOpening = {
+            id: count,
             salon: salonRef.current.value,
             horaInicio: initRef.current.value,
             horaFin: endRef.current.value
         }
-        setList([...list,newOpening])
-        
+        setList([...list, newOpening])
+        count = count + 1;
         setOpen(false)
     }
 
@@ -57,7 +60,7 @@ export default function handler() {
                 <Typography variant='h3' sx={{ color: '#FFFFFF' }}>Nuevo turno</Typography>
             </Box>
             <Spacer />
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', flexGrow: '1' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', flexGrow: '1',width:`calc(100%)` }}>
                 <TextField
                     required
                     id="outlined-required"
@@ -67,6 +70,28 @@ export default function handler() {
                 <Spacer />
                 <DaysComboBox />
                 <Spacer />
+                <TextField
+                    margin="dense"
+                    id="name"
+                    label="Hora de inicio"
+                    type="time"
+                    defaultValue="00:00"
+                    fullWidth
+                    variant="outlined"
+                    sx={{ width: 500 }}
+                />
+                <Spacer />
+                <TextField
+                    margin="dense"
+                    id="name"
+                    label="Hora de finalizacion"
+                    type="time"
+                    defaultValue="00:00"
+                    fullWidth
+                    variant="outlined"
+                    sx={{ width: 500 }}
+                />
+                <Spacer />
                 <Typography variant='h6' fontWeight='bold'>Aperturas</Typography>
                 <Box sx={{
                     display: 'flex',
@@ -74,13 +99,16 @@ export default function handler() {
                     alignItems: 'center',
                     borderRadius: '6px',
                     background: 'white',
-                    width: 500,
                     minHeight: 30,
                     border: 1,
                     borderColor: '#C8C8C8',
+                    width:`calc(70%)`
 
                 }}>
                     <Typography variant='body1'>{list.length == 0 ? "Aun no se han agregado aperturas" : ""}</Typography>
+                    {list.map((item) => (
+                        <OpeninCard salon={item.salon} init={item.horaInicio} end={item.horaFin} onClick={() => handleDelete(item.id)} />
+                    ))}
 
                 </Box>
                 <Spacer />
@@ -134,3 +162,5 @@ export default function handler() {
         </div>
     )
 }
+
+

@@ -18,17 +18,55 @@ import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useRouter } from 'next/router';
 import { signOut } from 'next-auth/react';
-const drawerWidth = 50;
+
+
+const drawerWidth = 25;
 
 //<button onClick={() => signOut({callbackUrl:'/'})}>LogOut</button>
 
 
 export default function PermanentDrawerLeft() {
     const router = useRouter()
+    const size = useWindowsSize()
+
     function navigateTo(to){
         router.push(to)
     }
 
+    function useWindowsSize(){
+        const [windowSize,setWindowSize] = React.useState({
+            width : undefined
+        });
+
+        React.useEffect(()=>{
+            function handleResize() {
+                // Set window width/height to state
+                setWindowSize({
+                  width: window.innerWidth
+                });
+            }
+    
+            window.addEventListener("resize", handleResize);
+    
+            handleResize();
+    
+            return () => window.removeEventListener("resize", handleResize);
+        },[])
+
+        return windowSize;
+    }
+
+    function getWidth(inner){
+        if(inner>600) return 150
+        return 50
+    }
+
+    function getVisibility(inner){
+        if(inner>600) return 'visible'
+        return 'hidden'
+    }
+
+    
     const menuItems = [
         {
             text: 'RUH',
@@ -60,7 +98,7 @@ export default function PermanentDrawerLeft() {
                     width: drawerWidth,
                     flexShrink: 0,
                     '& .MuiDrawer-paper': {
-                        width: 150,
+                        width: getWidth(size.width),
                         boxSizing: 'border-box',
                     },
                 }}
@@ -75,7 +113,7 @@ export default function PermanentDrawerLeft() {
                                 <ListItemIcon>
                                     {item.icon}
                                 </ListItemIcon>
-                                <ListItemText primary={item.text} />
+                                <ListItemText primary={item.text} sx={{visibility:getVisibility(size.width)}}/>
                             </ListItemButton>
                         </ListItem>
                     ))}
@@ -84,7 +122,7 @@ export default function PermanentDrawerLeft() {
                                 <ListItemIcon>
                                    <LogoutIcon/>
                                 </ListItemIcon>
-                                <ListItemText primary="Salir" />
+                                <ListItemText primary="Salir"  sx={{visibility:getVisibility(size.width)}}/>
                             </ListItemButton>
                         </ListItem>
                 </List>
