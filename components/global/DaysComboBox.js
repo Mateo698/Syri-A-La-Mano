@@ -8,7 +8,7 @@ export default function DaysComboBox() {
       disablePortal
       id="combo-box-demo"
       options={days}
-      sx={{ width: 500 }}
+      sx={{ width: `calc(70%)`,maxWidth:800 }}
       renderInput={(params) => <TextField {...params} label="Dia" />}
     />
   );

@@ -19,7 +19,6 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { useRouter } from 'next/router';
 import { signOut } from 'next-auth/react';
 
-
 const drawerWidth = 25;
 
 //<button onClick={() => signOut({callbackUrl:'/'})}>LogOut</button>

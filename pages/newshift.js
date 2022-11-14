@@ -14,6 +14,8 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useRef } from 'react';
 import OpeninCard from '../components/global/OpeningCard'
+
+
 let count = 0;
 
 export default function handler() {
@@ -65,7 +67,7 @@ export default function handler() {
                     required
                     id="outlined-required"
                     label="Edificios"
-                    sx={{ width: 500 }}
+                    sx={{ width: `calc(70%)` ,maxWidth:800}}
                 />
                 <Spacer />
                 <DaysComboBox />
@@ -78,7 +80,7 @@ export default function handler() {
                     defaultValue="00:00"
                     fullWidth
                     variant="outlined"
-                    sx={{ width: 500 }}
+                    sx={{ width: `calc(70%)` ,maxWidth:800}}
                 />
                 <Spacer />
                 <TextField
@@ -89,7 +91,7 @@ export default function handler() {
                     defaultValue="00:00"
                     fullWidth
                     variant="outlined"
-                    sx={{ width: 500 }}
+                    sx={{ width: `calc(70%)` ,maxWidth:800}}
                 />
                 <Spacer />
                 <Typography variant='h6' fontWeight='bold'>Aperturas</Typography>
@@ -102,12 +104,13 @@ export default function handler() {
                     minHeight: 30,
                     border: 1,
                     borderColor: '#C8C8C8',
-                    width:`calc(70%)`
+                    width:`calc(70%)`,
+                    maxWidth:800
 
                 }}>
                     <Typography variant='body1'>{list.length == 0 ? "Aun no se han agregado aperturas" : ""}</Typography>
                     {list.map((item) => (
-                        <OpeninCard salon={item.salon} init={item.horaInicio} end={item.horaFin} onClick={() => handleDelete(item.id)} />
+                        <OpeninCard key={item.id} salon={item.salon} init={item.horaInicio} end={item.horaFin} onClick={() => handleDelete(item.id)} />
                     ))}
 
                 </Box>
@@ -162,5 +165,4 @@ export default function handler() {
         </div>
     )
 }
-
 

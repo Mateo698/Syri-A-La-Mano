@@ -8,8 +8,10 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import Spacer from './Spacer';
 
 export default function item(props) {
+    
+
     return (
-        <Card sx={{ display: 'flex',width:470, flexDirection: 'row', maxHeight: 50, margin: '15px 15px 15px 15px', background: "#ebfafa" }}>
+        <Card sx={{ display: 'flex',width:`calc(95%)`, flexDirection: 'row', maxHeight: 50, margin: '15px 15px 15px 15px', background: "#ebfafa" }}>
 
             <CardContent sx={{display:'flex',flexGrow:'1'}}>
                 <Typography gutterBottom variant="h5" component="div">
