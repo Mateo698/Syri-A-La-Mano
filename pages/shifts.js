@@ -6,10 +6,12 @@ import { Typography } from '@mui/material';
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
 import { useRouter } from 'next/router';
 import Spacer from '../components/global/Spacer'
+import { getSession } from 'next-auth/react';
+import ShiftCard from '../components/global/ShiftCard'
 
 
-export default function handler() {
-    const [list,setList] = React.useState([]);
+export default function handler(props) {
+    const [list,setList] = React.useState(props.data);
     
     const router = useRouter();
     function navigateTo(to) {
@@ -41,7 +43,31 @@ export default function handler() {
                     width:`calc(70%)`
                 }}>
                 {list.length == 0 ? "Aun no se ha creado ningún turno" : ""}
+                {list.map((item) => (
+                    <ShiftCard key={item.id} dia = {item.dia} build = {item.edificio} init = {item.hora_inicio} end={item.hora_fin} />
+                ))}
             </Box>
         </div>
     )
+}
+
+export async function getServerSideProps(context) {
+    const session = getSession()
+    if(session){
+        let userData = { name: session.name, type: session.type };
+      let config = {
+        method: 'POST',
+        body: JSON.stringify({ userData })
+      }
+      const response = await fetch("http://localhost:3000/api/shifts", config);
+      const aux = await response.json();
+      const data = aux.data;
+      return {
+        props: { data }
+      }
+    }else{
+        return{
+            props: {none : ""}
+          }
+    }
 }

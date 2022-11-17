@@ -14,15 +14,15 @@ export default function item(props) {
         <Card sx={{ display: 'flex',width:`calc(95%)`, flexDirection: 'row', maxHeight: 50, margin: '15px 15px 15px 15px', background: "#ebfafa" }}>
 
             <CardContent sx={{display:'flex',flexGrow:'1'}}>
-                <Typography gutterBottom variant="h5" component="div">
+                <Typography gutterBottom variant="body1" component="div">
                     {props.salon}
                 </Typography>
                 <Spacer/>
-                <Typography gutterBottom variant="h5" component="div">
+                <Typography gutterBottom variant="body1" component="div">
                     {props.init}
                 </Typography>
                 <Spacer/>
-                <Typography gutterBottom variant="h5" component="div">
+                <Typography gutterBottom variant="body1" component="div">
                 - {props.end}
                 </Typography>
             </CardContent>
