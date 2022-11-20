@@ -2,14 +2,15 @@ import * as React from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 
-export default function DaysComboBox() {
+export default function DaysComboBox(props) {
   return (
     <Autocomplete
       disablePortal
       id="combo-box-demo"
       options={days}
       sx={{ width: `calc(70%)`,maxWidth:800 }}
-      renderInput={(params) => <TextField {...params} label="Dia" />}
+      
+      renderInput={(params) => <TextField {...params} label="Dia" inputRef={props.inputRef}/>}
     />
   );
 }

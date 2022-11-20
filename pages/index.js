@@ -44,9 +44,11 @@ function Component(props) {
       }
 
     } else if (session.type == "admin") {
-      <div>
+      return(
+        <div>
         Admin vieww
       </div>
+      )
     } else {
       return (
         <div>

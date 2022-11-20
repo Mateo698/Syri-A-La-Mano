@@ -4,27 +4,26 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Spacer from '../components/global/Spacer';
 import DaysComboBox from '../components/global/DaysComboBox';
-import Autocomplete from '@mui/material/Autocomplete';
 import Button from '@mui/material/Button';
-import ControlPointIcon from '@mui/icons-material/ControlPoint';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
 import { useRef } from 'react';
-import OpeninCard from '../components/global/OpeningCard'
+import { styled } from '@mui/material/styles';
+import { red } from '@mui/material/colors';
 
-
-let count = 0;
+const ColorButton = styled(Button)(({ theme }) => ({
+    color: theme.palette.getContrastText(red[500]),
+    backgroundColor: red[500],
+    '&:hover': {
+        backgroundColor: red[700],
+    },
+}));
 
 export default function handler() {
 
-    const salonRef = useRef()
+    const edifRef = useRef()
+    const diaRef = useRef()
     const initRef = useRef()
     const endRef = useRef()
-    const [open, setOpen] = React.useState(false);
-    const [list, setList] = React.useState([]);
+
 
     const handleDelete = (id) => {
         const newList = list.filter((todo) => todo.id != id)
@@ -41,19 +40,33 @@ export default function handler() {
         setOpen(false);
     };
 
-    const handleSave = () => {
-        if (salonRef.current.value == "" || initRef.current.value == "" || endRef.current.value == "") {
+    const handleSave = async e => {
+        if (edifRef.current.value == "" || diaRef.current.value == "" || initRef.current.value == "" || endRef.current.value == "") {
             alert("Por favor ingrese todos los campos")
+        } else {
+            let newShift = {
+                edificios: edifRef.current.value,
+                dia: diaRef.current.value,
+                hora_inicio: initRef.current.value + ":00",
+                hora_fin: endRef.current.value + ":00"
+            }
+            const response = await fetch('http://localhost:3000/api/newshift', {
+                method: 'POST',
+                body: JSON.stringify({ newShift }),
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            })
+            const aux = await response.json();
+            const data = aux.data;
+            if(data==1){
+                console.log("gud")
+            }else{
+                console.log("no gud")
+            }
         }
-        let newOpening = {
-            id: count,
-            salon: salonRef.current.value,
-            horaInicio: initRef.current.value,
-            horaFin: endRef.current.value
-        }
-        setList([...list, newOpening])
-        count = count + 1;
-        setOpen(false)
+
     }
 
     return (
@@ -62,15 +75,16 @@ export default function handler() {
                 <Typography variant='h3' sx={{ color: '#FFFFFF' }}>Nuevo turno</Typography>
             </Box>
             <Spacer />
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', flexGrow: '1',width:`calc(100%)` }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', flexGrow: '1', width: `calc(100%)` }}>
                 <TextField
                     required
                     id="outlined-required"
                     label="Edificios"
-                    sx={{ width: `calc(70%)` ,maxWidth:800}}
+                    inputRef={edifRef}
+                    sx={{ width: `calc(70%)`, maxWidth: 800 }}
                 />
                 <Spacer />
-                <DaysComboBox />
+                <DaysComboBox inputRef={diaRef} />
                 <Spacer />
                 <TextField
                     margin="dense"
@@ -80,7 +94,8 @@ export default function handler() {
                     defaultValue="00:00"
                     fullWidth
                     variant="outlined"
-                    sx={{ width: `calc(70%)` ,maxWidth:800}}
+                    inputRef={initRef}
+                    sx={{ width: `calc(70%)`, maxWidth: 800 }}
                 />
                 <Spacer />
                 <TextField
@@ -91,76 +106,33 @@ export default function handler() {
                     defaultValue="00:00"
                     fullWidth
                     variant="outlined"
-                    sx={{ width: `calc(70%)` ,maxWidth:800}}
+                    inputRef={endRef}
+                    sx={{ width: `calc(70%)`, maxWidth: 800 }}
                 />
                 <Spacer />
-                <Typography variant='h6' fontWeight='bold'>Aperturas</Typography>
                 <Box sx={{
                     display: 'flex',
-                    flexDirection: 'column',
+                    flexDirection: 'row',
                     alignItems: 'center',
                     borderRadius: '6px',
                     background: 'white',
                     minHeight: 30,
-                    border: 1,
-                    borderColor: '#C8C8C8',
-                    width:`calc(70%)`,
-                    maxWidth:800
+
+                    width: `calc(70%)`,
+                    maxWidth: 800
 
                 }}>
-                    <Typography variant='body1'>{list.length == 0 ? "Aun no se han agregado aperturas" : ""}</Typography>
-                    {list.map((item) => (
-                        <OpeninCard key={item.id} salon={item.salon} init={item.horaInicio} end={item.horaFin} onClick={() => handleDelete(item.id)} />
-                    ))}
+                    <Box sx={{ display: 'flex', flexGrow: '1', justifyContent: 'center' }}>
+                        <Button variant='contained' onClick={handleSave}>Agregar</Button>
+                    </Box>
+                    <Box sx={{ display: 'flex', flexGrow: '1', justifyContent: 'center', color: '#FF0000' }}>
+                        <ColorButton>Cancelar</ColorButton>
+                    </Box>
+
 
                 </Box>
                 <Spacer />
-                <Button variant="contained" onClick={handleClickOpen}>
-                    <Typography variant='subtitle1'>Agregar</Typography>
-                    <ControlPointIcon></ControlPointIcon>
-                </Button>
-                <Dialog open={open} onClose={handleClose}>
-                    <DialogTitle>Nueva apertura</DialogTitle>
-                    <DialogContent>
 
-                        <TextField
-                            autoFocus
-                            margin="dense"
-                            id="name"
-                            label="Salon"
-                            type="email"
-                            fullWidth
-                            variant="standard"
-                            inputRef={salonRef}
-                        />
-                        <Spacer />
-                        <TextField
-                            margin="dense"
-                            id="name"
-                            label="Hora de apertura"
-                            type="time"
-                            defaultValue="00:00"
-                            fullWidth
-                            variant="standard"
-                            inputRef={initRef}
-                        />
-                        <TextField
-                            margin="dense"
-                            id="name"
-                            label="Hora de cierre"
-                            type="time"
-                            defaultValue="00:00"
-                            fullWidth
-                            variant="standard"
-                            inputRef={endRef}
-                        />
-
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={handleClose}>Cancelar</Button>
-                        <Button onClick={handleSave}>Guardar</Button>
-                    </DialogActions>
-                </Dialog>
             </div>
         </div>
     )

@@ -18,6 +18,6 @@ export default async (req,res) => {
         }]
         res.status(200).json({data : shifts})
     }else{
-        res.status(200)
+        res.status(200).json({data : []})
     }
 }
