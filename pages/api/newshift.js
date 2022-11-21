@@ -8,8 +8,8 @@ export default async (req, res) => {
     if(response.rows.length != 0){
         res.status(200).json({data:0})
     }else{
-        let insert = await db.query('INSERT INTO TURNOS VALUES()')
+        let insert = await db.query('INSERT INTO TURNOS VALUES($1,$2,$3)',[data.edificios])
         res.status(200).json({data:1})
     }
-    
+    INSERT INTO TURNOS VALUES('E','Lunes','13:00',)
 }

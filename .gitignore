@@ -9,7 +9,7 @@
 /coverage
 
 # database
-/util/database.js
+/util/database.js*
 
 # next.js
 /.next/
