@@ -85,7 +85,7 @@ export default function PermanentDrawerLeft() {
         {
             text: 'Aperturas',
             icon: <MeetingRoomIcon />,
-            path: '/aperturas'
+            path: '/openings'
         }
     ]
 

@@ -62,7 +62,7 @@ export default function handler() {
             const data = aux.data;
             if(data==1){
                 alert('El turno se ha creado exitosamente')
-                window.location.href = '/' 
+                window.location.href = '/shifts' 
                 console.log("gud")
             }else{
                 alert('Ya existe un turno con estas caracteristicas')

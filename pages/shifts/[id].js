@@ -3,7 +3,7 @@ import { useSession } from "next-auth/react"
 export default function hanlder(){
     const {data : session} = useSession()
     if(session){
-        if(session.type == "Admin"){
+        if(session.type == "admin"){
             return(
                 <div>
                     Aqui es

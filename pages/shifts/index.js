@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box'
-import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { Typography } from '@mui/material';
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
 import { useRouter } from 'next/router';
@@ -18,15 +17,23 @@ export default function handler(props) {
         router.push(to)
     }
     
-    async function deleteItem(id){
+    function onEdit(id){
+        window.location.href = '/shifts/'+id
+    }
+
+    const deleteItem = async (id) => {
+        const obj = { id:id,operation:'delete'}
+        console.log(obj)
         let config = {
             method: 'POST',
-            body: JSON.stringify({ id:id,operation:'delete'})
+            body: JSON.stringify(obj)
         }
         const response = await fetch("http://localhost:3000/api/shifts", config);
         const aux = await response.json();
-        const data = aux.data;
+        const data = aux.message;
         console.log(data)
+        const newList = list.filter((item) => item.id != id)
+        setList(newList)
     }
 
     if (session) {
@@ -63,8 +70,8 @@ export default function handler(props) {
                                 build={item.edificio}
                                 init={item.hora_inicio}
                                 end={item.hora_fin}
-                                onEdit={() => { window.location.href = '/shifts/' + item.id }}
-                                onDelete={deleteItem(item.id)} />
+                                onEdit={() => onEdit(item.id)}
+                                onDelete={() => deleteItem(item.id)} />
                         ))}
                     </Box>
                 </div>
