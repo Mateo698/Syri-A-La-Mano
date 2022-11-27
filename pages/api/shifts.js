@@ -1,23 +1,15 @@
+import db from '../../util/database'
 export default async (req,res) => {
     const { body, method } = req;
     
     const data = JSON.parse(body)
     if(method == "POST"){
-        let shifts = [{
-            id : '1',
-            edificio: 'F,C',
-            dia : 'Lunes',
-            hora_inicio: '17:30',
-            hora_fin: '20:00'
-        },{
-            id : '2',
-            edificio: '1 y 2D',
-            dia : 'Lunes',
-            hora_inicio: '17:30',
-            hora_fin: '20:00'
-        }]
+        if(){
+            
+        }
+        let query = await db.query('SELECT * FROM TURNOS')
+        const shifts = query.rows.map((item) => ({id: item.id, edificio:item.edificios,dia:item.dia,hora_inicio:item.hora_inicio,hora_fin:item.hora_fin}))
         res.status(200).json({data : shifts})
-    }else{
-        res.status(200).json({data : []})
     }
+    res.status(200).json({data : []})
 }

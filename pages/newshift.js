@@ -61,8 +61,11 @@ export default function handler() {
             const aux = await response.json();
             const data = aux.data;
             if(data==1){
+                alert('El turno se ha creado exitosamente')
+                window.location.href = '/' 
                 console.log("gud")
             }else{
+                alert('Ya existe un turno con estas caracteristicas')
                 console.log("no gud")
             }
         }

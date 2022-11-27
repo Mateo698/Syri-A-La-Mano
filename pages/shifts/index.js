@@ -11,14 +11,26 @@ import ShiftCard from '../../components/global/ShiftCard'
 
 
 export default function handler(props) {
-    const [list,setList] = React.useState(props.data);
+    const [list, setList] = React.useState(props.data);
     const { data: session } = useSession()
     const router = useRouter();
     function navigateTo(to) {
         router.push(to)
     }
-    if(session){
-        if(session.type == "admin"){
+    
+    async function deleteItem(id){
+        let config = {
+            method: 'POST',
+            body: JSON.stringify({ id:id,operation:'delete'})
+        }
+        const response = await fetch("http://localhost:3000/api/shifts", config);
+        const aux = await response.json();
+        const data = aux.data;
+        console.log(data)
+    }
+
+    if (session) {
+        if (session.type == "admin") {
             return (
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', flexGrow: '1' }}>
                     <Box sx={{ display: 'flex', flexGrow: '1', flexDirection: 'column', background: '#1760A5', width: `calc(100%)`, alignItems: 'center' }}>
@@ -30,63 +42,69 @@ export default function handler(props) {
                             <Typography variant='subtitle1'>Crear nuevo</Typography>
                             <ControlPointIcon></ControlPointIcon>
                         </Button>
-        
+
                     </Box>
                     <Spacer />
                     <Box sx={{
-                            display: 'flex',
-                            flexGrow: '1',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                            borderRadius: '6px',
-                            background: 'white',
-                            border: 1,
-                            borderColor: '#C8C8C8',
-                            width:`calc(70%)`
-                        }}>
+                        display: 'flex',
+                        flexGrow: '1',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        borderRadius: '6px',
+                        background: 'white',
+                        border: 1,
+                        borderColor: '#C8C8C8',
+                        width: `calc(70%)`
+                    }}>
                         {list.length == 0 ? "Aun no se ha creado ningún turno" : ""}
                         {list.map((item) => (
-                            <ShiftCard key={item.id} dia = {item.dia} build = {item.edificio} init = {item.hora_inicio} end={item.hora_fin} />
+                            <ShiftCard key={item.id}
+                                dia={item.dia}
+                                build={item.edificio}
+                                init={item.hora_inicio}
+                                end={item.hora_fin}
+                                onEdit={() => { window.location.href = '/shifts/' + item.id }}
+                                onDelete={deleteItem(item.id)} />
                         ))}
                     </Box>
                 </div>
             )
-        }else{
-            return(
+        } else {
+            return (
                 <div>
                     Usted no tiene permisos para acceder a esta pagina
-                    <button type="button" onClick={() => {window.location.href = '/signIn'}}>Iniciar sesion</button>
+                    <button type="button" onClick={() => { window.location.href = '/signIn' }}>Iniciar sesion</button>
                 </div>
             )
         }
-    }else{
-        return(
+    } else {
+        return (
             <div>
                 Usted no tiene permisos para acceder a esta pagina
-                <button type="button" onClick={() => {window.location.href = '/signIn'}}>Iniciar sesion</button>
+                <button type="button" onClick={() => { window.location.href = '/signIn' }}>Iniciar sesion</button>
             </div>
         )
     }
-    
+
 }
 
 export async function getServerSideProps(context) {
     const session = getSession()
-    if(session){
+    if (session) {
         let userData = { name: session.name, type: session.type };
-      let config = {
-        method: 'POST',
-        body: JSON.stringify({ userData })
-      }
-      const response = await fetch("http://localhost:3000/api/shifts", config);
-      const aux = await response.json();
-      const data = aux.data;
-      return {
-        props: { data }
-      }
-    }else{
-        return{
-            props: {none : ""}
-          }
+        let config = {
+            method: 'POST',
+            body: JSON.stringify({ userData })
+        }
+        const response = await fetch("http://localhost:3000/api/shifts", config);
+        const aux = await response.json();
+        const data = aux.data;
+        return {
+            props: { data }
+        }
+    } else {
+        return {
+            props: { none: "" }
+        }
     }
 }
