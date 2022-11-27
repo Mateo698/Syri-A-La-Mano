@@ -22,7 +22,7 @@ export default function handler(props){
     return(
         <div style={{display:"flex",justifyContent:"center",alignItems:"center",flexDirection:"column"}} >
             {monitores.map((monitores) => (
-                <MonitorCard key= "monitor"
+                <MonitorCard key= {monitores.username}
                 username={monitores.username}
                 name={monitores.name}
                 email={monitores.email}
