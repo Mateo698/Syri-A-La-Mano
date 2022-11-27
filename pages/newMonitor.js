@@ -46,7 +46,7 @@ export default function handler() {
             const data = aux.data;
             if(data==1){
                 alert('El Monitor se ha creado exitosamente')
-                window.location.href = '/' 
+                window.location.href = '/monitores' 
                 console.log("gud")
             }else{
                 alert('Ya existe un Monitor con el mismo username')

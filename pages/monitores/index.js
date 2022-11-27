@@ -35,7 +35,7 @@ export default function handler(props){
                     const response = await fetch("http://localhost:3000/api/monitores", config);
                     const aux = await response.json();
                     const data = aux.data;
-                    console.log(data)
+                    window.location.reload()
                 }}/>
             ))}
             <IconButton onClick={() => navigateTo('/newMonitor')}>
@@ -50,7 +50,11 @@ export async function getServerSideProps(context) {
     const session = await getSession(context);
     if(session){
       let userData = { name: session.name, type: session.type };
-      const response = await fetch("http://localhost:3000/api/monitores");
+      let config = {
+        method: 'POST',
+        body: JSON.stringify({ userData })
+    }
+      const response = await fetch("http://localhost:3000/api/monitores",config);
       const aux = await response.json();
       const data = aux.data;      
       return {

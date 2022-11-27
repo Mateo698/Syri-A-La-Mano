@@ -14,7 +14,7 @@ export default async (req, res) => {
         apertura: item.hora_inicio
         , cierre: hora_fin
       }))
-
+      res.status(200).json({data: openings})
     } else {
       let openings = [{
         salon: "302L",
