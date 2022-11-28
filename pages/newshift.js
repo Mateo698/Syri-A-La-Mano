@@ -8,6 +8,7 @@ import Button from '@mui/material/Button';
 import { useRef } from 'react';
 import { styled } from '@mui/material/styles';
 import { red } from '@mui/material/colors';
+import { useSession } from 'next-auth/react';
 
 const ColorButton = styled(Button)(({ theme }) => ({
     color: theme.palette.getContrastText(red[500]),
@@ -24,6 +25,7 @@ export default function handler() {
     const initRef = useRef()
     const endRef = useRef()
 
+    const { data: session } = useSession()
 
     const handleSave = async e => {
         if (edifRef.current.value == "" || diaRef.current.value == "" || initRef.current.value == "" || endRef.current.value == "") {

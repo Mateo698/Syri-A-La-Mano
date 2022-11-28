@@ -6,6 +6,7 @@ export default function DaysComboBox(props) {
   return (
     <Autocomplete
       disablePortal
+      defaultValue={props.defaultValue}
       id="combo-box-demo"
       options={days}
       sx={{ width: `calc(70%)`,maxWidth:800 }}

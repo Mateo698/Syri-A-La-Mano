@@ -3,40 +3,44 @@ import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import {IconButton} from '@mui/material';
+import { IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import Spacer from './Spacer';
 
 export default function item(props) {
-    
+
 
     return (
-        <Card sx={{ display: 'flex',width:`calc(95%)`, flexDirection: 'row', maxHeight: 50, margin: '15px 15px 15px 15px', background: "#ebfafa" }}>
+        <Card sx={{ display: 'flex', width: `calc(95%)`, flexDirection: 'row', maxHeight: 50, margin: '15px 15px 15px 15px', background: "#ebfafa" }}>
 
-            <CardContent sx={{display:'flex',flexGrow:'1'}}>
+            <CardContent sx={{ display: 'flex', flexGrow: '1' }}>
+                <Typography gutterBottom variant="body1" component="div">
+                    {props.dia}
+                </Typography>
+                <Spacer />
                 <Typography gutterBottom variant="body1" component="div">
                     {props.salon}
                 </Typography>
-                <Spacer/>
+                <Spacer />
                 <Typography gutterBottom variant="body1" component="div">
-                {props.build}
+                    {props.build}
                 </Typography>
-                <Spacer/>
+                <Spacer />
                 <Typography gutterBottom variant="body1" component="div">
                     {props.init}
                 </Typography>
-                <Spacer/>
+                <Spacer />
                 <Typography gutterBottom variant="body1" component="div">
-                - {props.end}
+                    - {props.end}
                 </Typography>
             </CardContent>
             <CardActions>
                 <IconButton onClick={props.onEdit}>
-                    <EditIcon/>
+                    <EditIcon />
                 </IconButton>
                 <IconButton onClick={props.onDelete}>
-                    <DeleteIcon/>
+                    <DeleteIcon />
                 </IconButton>
             </CardActions>
         </Card>

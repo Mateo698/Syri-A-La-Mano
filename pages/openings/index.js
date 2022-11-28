@@ -68,6 +68,7 @@ export default function Open(props) {
               <AdminOpening
                 key={item.id}
                 salon={item.salon}
+                dia={item.dia}
                 build={item.edificio}
                 init={item.apertura}
                 end={item.cierre}
@@ -80,7 +81,7 @@ export default function Open(props) {
         </div>)
     } else if (session.type == "monit") {
       return (
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
+        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', flexGrow: '1' }}>
           <SyriCard salon="201E" apertura="A" cierre="B" />
           <SyriCard salon="201L" apertura="A" cierre="B" />
           <SyriCard salon="201H" apertura="A" cierre="B" />

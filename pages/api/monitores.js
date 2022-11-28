@@ -2,7 +2,6 @@ import db from '../../util/database'
 export default async (req, res) => {
     const { body, method } = req;
     let data = JSON.parse(body)
-    console.log(data);
     if (method == "POST") {
         if (data.operation == "delete") {
             console.log("amogus")

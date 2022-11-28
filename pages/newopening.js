@@ -3,6 +3,7 @@ import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Spacer from '../components/global/Spacer';
+import DaysComboBox from '../components/global/DaysComboBox';
 import Button from '@mui/material/Button';
 import { useRef } from 'react';
 import { styled } from '@mui/material/styles';
@@ -22,18 +23,20 @@ export default function handler() {
     const salonRef = useRef()
     const initRef = useRef()
     const endRef = useRef()
+    const diaRef = useRef()
 
 
     const handleSave = async e => {
-        if (edifRef.current.value == "" || salonRef.current.value == "" || initRef.current.value == "" || endRef.current.value == "") {
+        if (edifRef.current.value == "" || diaRef.current.value == "" || salonRef.current.value == "" || initRef.current.value == "" || endRef.current.value == "") {
             alert("Por favor ingrese todos los campos")
         } else {
             let room =salonRef.current.value + edifRef.current.value;
             let newOp = {
                 edificio: edifRef.current.value,
                 salon: room,
-                hora_inicio: initRef.current.value + ":00",
-                hora_fin: endRef.current.value + ":00"
+                hora_inicio: initRef.current.value ,
+                hora_fin: endRef.current.value ,
+                dia: diaRef.current.value
             }
             const response = await fetch('http://localhost:3000/api/newopening', {
                 method: 'POST',
@@ -79,6 +82,8 @@ export default function handler() {
                     inputRef={salonRef}
                     sx={{ width: `calc(70%)`, maxWidth: 800 }}
                 />
+                <Spacer />
+                <DaysComboBox inputRef={diaRef} />
                 <Spacer />
                 <TextField
                     margin="dense"

@@ -72,7 +72,7 @@ export default function MenuAppBar() {
                     <ThemeProvider theme={theme}>
                         <Stack direction="row" flexGrow={2} >
                             <Box flexGrow={1} sx={{ display: 'flex', justifyContent: 'center' }}>
-                                <Button color="neutral" variant="contained" sx={{width:'90%'}} onClick={() => navigateTo('/aperturas')}>
+                                <Button color="neutral" variant="contained" sx={{width:'90%'}} onClick={() => navigateTo('/openings')}>
                                     Aperturas
                                 </Button></Box>
 
