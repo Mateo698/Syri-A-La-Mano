@@ -27,10 +27,13 @@ export default function SyriCard(props) {
           {props.salon}
         </Typography>
         <Typography variant="h5">
-          {props.apertura}
+          {props.hora}
         </Typography>
         <Typography variant="h5">
-          {props.cierre}
+          {props.tipo}
+        </Typography>
+        <Typography variant="h5">
+          {props.estado}
         </Typography>
       </CardContent>
       <CardActions sx={{display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

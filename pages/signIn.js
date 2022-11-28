@@ -1,14 +1,21 @@
 import { Home } from "@mui/icons-material";
 import { Container } from "@mui/material"
-import { signIn } from "next-auth/react"
-import { useRef } from "react";
+import { signIn,useSession} from "next-auth/react"
+import { useRouter } from "next/router";
+import { useRef,useEffect } from "react";
 import styles from '../styles/SignIn.module.css';
 
+
 export default function SignIn() {
+  const router = useRouter();
+  const { data: session, status } = useSession()
   const nameRef = useRef();
   const passRef = useRef();
   var typeUser = "";
 
+  useEffect(() => {
+    if (status === "authenticated") router.push('/');
+  }, [status]);
 
   function onChange(e) {
     typeUser = e.target.value;

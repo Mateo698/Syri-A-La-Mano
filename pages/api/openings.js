@@ -20,8 +20,20 @@ export default async (req, res) => {
         }))
         res.status(200).json({data: openings})
       }
-    } else {
-      //AQUI VA EL SISTEMA DEL APERTURAS PARA EL MONITOR
+    } else if(data.userData.type == "monit"){
+      let query = await db.query('SELECT * FROM TURNO_MONITOR WHERE USERNAME = $1',[data.userData.username])
+      if(query.rows.length != 0){
+        let id = query.rows[0].id
+        query = await db.query('SELECT * FROM TURNOS WHERE ID=$1',[id])
+        let init = query.rows[0].hora_inicio;
+        let end = query.rows[0].hora_fin;
+        query = await db.query('SELECT * FROM HORARIOS WHERE HORA >= $1 AND HORA <= $2',[init,end])
+        let openings = query.rows.map((item)=>({salon:item.salon,hora:item.hora,tipo:item.tipo,estado:item.estado}))
+        res.status(200).json({data:openings})
+      }else{
+        res.status(200).json({ data: [] })
+      }
+    }else{
       res.status(200).json({ data: [] })
     }
 

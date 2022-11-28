@@ -16,8 +16,9 @@ const authOptions = {
         let data = await db.query('SELECT * FROM USERS WHERE EMAIL = $1 AND TYPE = $2',[email,type]);
         var user = {
           email: data.rows[0].email,
-          name: data.rows[0].username,
-          type: data.rows[0].type
+          name: data.rows[0].name,
+          type: data.rows[0].type,
+          username: data.rows[0].username
         }
         if(password == data.rows[0].password){
           return user;
@@ -35,7 +36,8 @@ const authOptions = {
       if (user) {
         token.name = user.name,
           token.email = user.email,
-          token.type = user.type
+          token.type = user.type,
+          token.username = user.username
       }
       return token
     },
@@ -44,7 +46,7 @@ const authOptions = {
         session.name = token.name
         session.email = token.email,
         session.type = token.type
-
+        session.username = token.username
       }
       return session
     }

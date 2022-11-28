@@ -8,11 +8,13 @@ import { useRouter } from 'next/router'
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
 import SyriCard from '../../components/global/SyriCard'
 import Spacer from '../../components/global/Spacer'
+import '@fontsource/roboto/400.css';
 
 export default function Open(props) {
   const { data: session } = useSession();
   const [list, setList] = React.useState(props.data)
   const router = useRouter();
+  console.log(props)
   function navigateTo(to) {
     router.push(to)
   }
@@ -82,12 +84,10 @@ export default function Open(props) {
     } else if (session.type == "monit") {
       return (
         <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', flexGrow: '1' }}>
-          <SyriCard salon="201E" apertura="A" cierre="B" />
-          <SyriCard salon="201L" apertura="A" cierre="B" />
-          <SyriCard salon="201H" apertura="A" cierre="B" />
-          <SyriCard salon="201F" apertura="A" cierre="B" />
-          <SyriCard salon="201G" apertura="A" cierre="B" />
-          <div style={{ height: '50px' }}>hide</div>
+          {list.length == 0 ? <Typography>Parece que aun no estas en ningun turno.</Typography> : ""}
+          {list.map((item)=>(<SyriCard salon={item.salon} hora={item.hora} estado={item.estado} tipo={item.tipo} />))}
+          <Spacer/>
+          <Spacer/>
         </div>
       )
     } else {
@@ -110,7 +110,7 @@ export default function Open(props) {
 export async function getServerSideProps(context) {
   const session = await getSession(context);
   if (session) {
-    let userData = { name: session.name, type: session.type };
+    let userData = { username: session.username, type: session.type };
     let config = {
       method: 'POST',
       body: JSON.stringify({ userData })
