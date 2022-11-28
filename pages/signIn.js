@@ -1,7 +1,8 @@
+import { Home } from "@mui/icons-material";
 import { Container } from "@mui/material"
 import { signIn } from "next-auth/react"
 import { useRef } from "react";
-
+import styles from '../styles/SignIn.module.css';
 
 export default function SignIn() {
   const nameRef = useRef();
@@ -33,16 +34,24 @@ export default function SignIn() {
 
   return (
     <Container>
-      <div >
-        <div >
-          <h1 className="signin-h1">Iniciar Sesion</h1>
-          <input ref={nameRef} className="sign-in-input" name="email" type="email" placeholder="Email" />
-          <input ref={passRef} className="sign-in-input" name="password" type="password" placeholder="Password" /><hr></hr>
-          <input onClick={onChange} value="admin" name="type" type="radio"></input><label for="">Administrador</label>
-          <input onClick={onChange} value="monit" name="type" type="radio"></input><label for="">Monitor</label>
-          <hr />
-          <button className="sign-in-button" onClick={handleSubmit}>Sign in</button>
+      <div className={styles.flexcolumn}>
+          <h1 className={styles.h1}>Iniciar Sesion</h1>
+          <div className={styles.flex}>
+          <div className={styles.flexcolumn}>
+          <label for="email" className={styles.label}>Email</label>
+          <input id="email" ref={nameRef} className={styles.input} name="email" type="email" placeholder="email@example.com" />
+          <label for="password" className={styles.label} >Password</label>
+          <input id="password"ref={passRef} className={styles.input} name="password" type="password" placeholder="********" />
+          </div>
+          <div className={styles.flexcolumn}>
+          <h3>Iniciar sesion como: </h3> 
+          <div className={styles.flex}>
+          <input className={styles.radio} onClick={onChange} value="admin" name="type" type="radio" id="admin"></input><label for="admin">Administrador</label>
+          <input className={styles.radio} onClick={onChange} value="monit" name="type" type="radio" id="monit"></input><label for="monit">Monitor</label>
+          </div>
+          </div>
         </div>
+        <button className={styles.button} onClick={handleSubmit}>Sign in</button>
       </div >
     </Container>
 
