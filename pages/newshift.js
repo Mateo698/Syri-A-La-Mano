@@ -25,21 +25,6 @@ export default function handler() {
     const endRef = useRef()
 
 
-    const handleDelete = (id) => {
-        const newList = list.filter((todo) => todo.id != id)
-
-        setList(newList)
-    }
-
-    const handleClickOpen = () => {
-        console.log(list)
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
-
     const handleSave = async e => {
         if (edifRef.current.value == "" || diaRef.current.value == "" || initRef.current.value == "" || endRef.current.value == "") {
             alert("Por favor ingrese todos los campos")
@@ -129,7 +114,7 @@ export default function handler() {
                         <Button variant='contained' onClick={handleSave}>Agregar</Button>
                     </Box>
                     <Box sx={{ display: 'flex', flexGrow: '1', justifyContent: 'center', color: '#FF0000' }}>
-                        <ColorButton>Cancelar</ColorButton>
+                        <ColorButton onClick={()=>{window.location.href = '/shifts'}}>Cancelar</ColorButton>
                     </Box>
 
 

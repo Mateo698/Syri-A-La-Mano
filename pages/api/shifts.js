@@ -5,7 +5,6 @@ export default async (req,res) => {
     const data = JSON.parse(body)
     if(method == "POST"){
         if(data.operation == 'delete'){
-            console.log(data.id + " ESTE ES EL ID")
             let query = await db.query('DELETE FROM TURNOS WHERE ID=$1',[data.id])
             res.status(200).json({message:'success'})
         }else{
