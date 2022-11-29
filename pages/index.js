@@ -4,8 +4,10 @@ import { useEffect, useRef } from 'react'
 import Spacer from '../components/global/Spacer'
 import { useSession, signIn, signOut, getSession } from "next-auth/react"
 import { useRouter } from 'next/router'
-import { Button, TextField, Typography } from '@mui/material'
+import { Box, Button, TextField, Typography } from '@mui/material'
 import '@fontsource/roboto/400.css';
+import AdminShift from '../components/global/AdminShift'
+
 
 const ColorButton = styled(Button)(({ theme }) => ({
   color: theme.palette.getContrastText(red[500]),
@@ -17,6 +19,8 @@ const ColorButton = styled(Button)(({ theme }) => ({
 
 
 function Component(props) {
+ 
+ 
   const idRef = useRef()
   const { data: session, status } = useSession()
   const router = useRouter();
@@ -99,8 +103,25 @@ function Component(props) {
       )
     } else if (session.type == "admin") {
       return (
-        <div>
-          Admin vieww
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', flexGrow: '1' }}>
+          <Spacer/>
+          <Typography variant='h4'>Turnos disponible</Typography>
+          <Box sx={{
+            display: 'flex',
+            flexGrow: '1',
+            flexDirection: 'column',
+            alignItems: 'center',
+            borderRadius: '6px',
+            background: 'white',
+            border: 1,
+            borderColor: '#C8C8C8',
+            width: `calc(70%)`
+
+          }}>
+            {props.data.length == 0 ? "No hay turnos creados para este momento." : ""}
+            {props.data.map((item)=>(<AdminShift edificios={item.edificios} estado={item.estado} id={item.id}  /> ))}
+          </Box>
+          
         </div>
       )
     } else {

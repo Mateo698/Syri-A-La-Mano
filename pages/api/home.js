@@ -22,7 +22,7 @@ export default async (req, res) => {
         }
 
       } else if (data.operation == "out") {
-        let query = await db.query('SELECT * FROM TURNO_MONITOR WHERE USERNAME = $1',[data.username])
+        let query = await db.query('SELECT * FROM TURNO_MONITOR WHERE USERNAME = $1', [data.username])
         let turnoId = query.rows[0].id
         query = db.query('DELETE FROM TURNO_MONITOR WHERE USERNAME=$1', [data.username])
         query = await db.query("UPDATE TURNOS SET ESTADO = 'Libre' WHERE ID=$1", [turnoId])
@@ -44,6 +44,24 @@ export default async (req, res) => {
         }
       }
 
+    } else if (data.type == "admin") {
+      let current = new Date()
+      let hours = current.getHours()
+      let minutes= current.getMinutes()
+      if(current.getHours() < 10){
+        hours = "0" + hours
+      }
+      if(current.getMinutes()<10){
+        minutes = "0" + minutes
+      }
+      const timeNow = hours+":"+minutes;
+      let dayOfWeekName = new Date().toLocaleString(
+        'es-MX', {weekday: 'long'}
+      );
+      dayOfWeekName=  dayOfWeekName.charAt(0).toUpperCase() + dayOfWeekName.slice(1);
+      let query = await db.query('SELECT * FROM TURNOS WHERE HORA_INICIO<=$1 AND HORA_FIN>=$1 AND DIA=$2',[timeNow,dayOfWeekName])
+      let shifts = query.rows.map((item) => ({edificios:item.edificios,estado:item.estado,id:item.id}))
+      res.status(200).json({ data: shifts })
     } else {
       let current = { turnoId: "4659", edificios: "F,C" }
       res.status(200).json({ data: current })
