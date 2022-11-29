@@ -25,9 +25,9 @@ const ColorButton = styled(Button)(({ theme }) => ({
 
 export default function handler() {
 
-    const edifRef = useRef()
-    const diaRef = useRef()
-    const initRef = useRef()
+    const edificiofRef = useRef()
+    const salonRef = useRef()
+    const commentRef = useRef()
     const endRef = useRef()
     const router = useRouter();
 
@@ -37,18 +37,17 @@ export default function handler() {
 
 
     const handleSave = async e => {
-        if (edifRef.current.value == "" || diaRef.current.value == "" || initRef.current.value == "" || endRef.current.value == "") {
+        if (edificiofRef.current.value == "" || salonRef.current.value == "" || commentRef.current.value == "") {
             alert("Por favor ingrese todos los campos")
         } else {
-            let newShift = {
-                edificios: edifRef.current.value,
-                dia: diaRef.current.value,
-                hora_inicio: initRef.current.value + ":00",
-                hora_fin: endRef.current.value + ":00"
+            let newSolicitud = {
+                edificio: edificiofRef.current.value,
+                salon: salonRef.current.value,
+                comentario: commentRef.current.value
             }
-            const response = await fetch('http://localhost:3000/api/newshift', {
+            const response = await fetch('http://localhost:3000/api/newSolicitud', {
                 method: 'POST',
-                body: JSON.stringify({ newShift }),
+                body: JSON.stringify({ newSolicitud }),
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
@@ -57,11 +56,11 @@ export default function handler() {
             const aux = await response.json();
             const data = aux.data;
             if(data==1){
-                alert('El turno se ha creado exitosamente')
-                window.location.href = '/shifts' 
+                alert('La solicitud se ha enviado exitosamente')
+                window.location.href = '/home' 
                 console.log("gud")
             }else{
-                alert('Ya existe un turno con estas caracteristicas')
+                alert('Ya existe una solicitud con estas caracteristicas')
                 console.log("no gud")
             }
         }
@@ -81,10 +80,19 @@ export default function handler() {
                 <TextField
                     required
                     id="outlined-required"
-                    label="Salon"
-                    inputRef={edifRef}
+                    label="Edificio"
+                    inputRef={edificiofRef}
                     sx={{ width: `calc(70%)`, maxWidth: 800 }}
                 />
+                <Spacer />
+                <TextField
+                    required
+                    id="outlined-required"
+                    label="Salon"
+                    inputRef={salonRef}
+                    sx={{ width: `calc(70%)`, maxWidth: 800 }}
+                />
+                
                 <Spacer />
                 <TextField
                 id="outlined-multiline-static"
@@ -93,6 +101,7 @@ export default function handler() {
                 rows={4}
                 sx={{ width: `calc(70%)`, maxWidth: 800 }}
                 required
+                inputRef={commentRef}
                 />
                 <Spacer />
                 <Box sx={{
