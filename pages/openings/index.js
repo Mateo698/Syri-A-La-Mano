@@ -12,7 +12,7 @@ import '@fontsource/roboto/400.css';
 
 export default function Open(props) {
   const { data: session } = useSession();
-  const [list, setList] = React.useState(props.data)
+  const [list, setList] = React.useState(props.data == "none" ? [] : props.data)
   const router = useRouter();
   console.log(props)
   function navigateTo(to) {
@@ -84,7 +84,8 @@ export default function Open(props) {
     } else if (session.type == "monit") {
       return (
         <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', flexGrow: '1' }}>
-          {list.length == 0 ? <Typography>Parece que aun no estas en ningun turno.</Typography> : ""}
+          {props.data == "none" ? <Typography>Todavia no estas en ningun turno.</Typography> : ""}
+          {list.length == 0 && props.data != "none"? <Typography>No hay aperturas pendientes.</Typography> : ""}
           {list.map((item)=>(<SyriCard salon={item.salon} hora={item.hora} estado={item.estado} tipo={item.tipo} />))}
           <Spacer/>
           <Spacer/>

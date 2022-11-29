@@ -14,6 +14,7 @@ export default async (req, res) => {
             res.status(200).json({ message: "unsuccesfull" })
           } else {
             query = await db.query('INSERT INTO TURNO_MONITOR VALUES($1,$2)', [data.username, data.turnoId])
+            query = await db.query("UPDATE TURNOS SET ESTADO = 'Ocupado' WHERE ID=$1", [data.turnoId])
             res.status(200).json({ message: "succesfull" })
           }
         } else {
@@ -21,8 +22,11 @@ export default async (req, res) => {
         }
 
       } else if (data.operation == "out") {
-        let query = db.query('DELETE FROM TURNO_MONITOR WHERE USERNAME=$1',[data.username])
-        res.status(200).json({data:"none"})
+        let query = await db.query('SELECT * FROM TURNO_MONITOR WHERE USERNAME = $1',[data.username])
+        let turnoId = query.rows[0].id
+        query = db.query('DELETE FROM TURNO_MONITOR WHERE USERNAME=$1', [data.username])
+        query = await db.query("UPDATE TURNOS SET ESTADO = 'Libre' WHERE ID=$1", [turnoId])
+        res.status(200).json({ data: "none" })
       } else {
         let query = await db.query('SELECT * FROM TURNO_MONITOR WHERE USERNAME = $1', [data.username])
         if (query.rows.length != 0) {

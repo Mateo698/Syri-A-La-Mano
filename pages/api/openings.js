@@ -31,7 +31,7 @@ export default async (req, res) => {
         let openings = query.rows.map((item)=>({salon:item.salon,hora:item.hora,tipo:item.tipo,estado:item.estado}))
         res.status(200).json({data:openings})
       }else{
-        res.status(200).json({ data: [] })
+        res.status(200).json({ data: "none" })
       }
     }else{
       res.status(200).json({ data: [] })

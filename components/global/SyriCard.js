@@ -35,6 +35,9 @@ export default function SyriCard(props) {
         <Typography variant="h5">
           {props.estado}
         </Typography>
+        <Typography variant="h5">
+          {props.comentarios}
+        </Typography>
       </CardContent>
       <CardActions sx={{display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <Box flexGrow={1}>
